@@ -1,0 +1,28 @@
+{
+    "name": "borobudur/prooph-infra",
+    "type": "library",
+    "description": "Borobudur Prooph Implementation",
+    "minimum-stability": "dev",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Iqbal Maulana",
+            "email": "iq.bluejack@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^7.1.3",
+        "prooph/service-bus": "^6.1.1",
+        "borobudur/messaging": "~0.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Borobudur\\Infrastructure\\Prooph\\": ""
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.1-dev"
+        }
+    }
+}

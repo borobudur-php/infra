@@ -1,0 +1,34 @@
+{
+    "type": "library",
+    "minimum-stability": "dev",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Iqbal Maulana",
+            "email": "iq.bluejack@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^7.1.3",
+        "borobudur/borobudur": "~0.1",
+        "prooph/service-bus": "^6.1.1",
+        "doctrine/orm": "^2.6",
+        "psr/container": "^1.0",
+        "symfony/http-kernel": "^3.4",
+        "symfony/framework-bundle": "^3.4",
+        "symfony/dependency-injection": "^3.4",
+        "doctrine/doctrine-bundle": "^1.7",
+        "symfony/yaml": "^3.4",
+        "friendsofsymfony/rest-bundle": "^2.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "Borobudur\\Infrastructure\\": "src/Borobudur"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.1-dev"
+        }
+    }
+}
