@@ -13,8 +13,8 @@
     "require": {
         "php": "^7.1.3",
         "doctrine/orm": "^2.6",
-        "borobudur/identifier": "~0.1",
-        "borobudur/ddd": "~0.1"
+        "borobudur/identifier": "^0.1",
+        "borobudur/ddd": "^0.1"
     },
     "autoload": {
         "psr-4": {

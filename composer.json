@@ -19,7 +19,8 @@
         "symfony/dependency-injection": "^3.4",
         "doctrine/doctrine-bundle": "^1.7",
         "symfony/yaml": "^3.4",
-        "friendsofsymfony/rest-bundle": "^2.2"
+        "friendsofsymfony/rest-bundle": "^2.2",
+        "prooph/event-store": "^7.3"
     },
     "autoload": {
         "psr-4": {
