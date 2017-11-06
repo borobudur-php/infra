@@ -61,25 +61,42 @@ abstract class AbstractKernel extends HttpKernel
      */
     protected function loadBundleDependencies(array $bundles): array
     {
-        foreach (array_keys($bundles) as $bundle) {
+        $loaded = [];
+
+        foreach ($bundles as $bundle => $options) {
             $reflection = new ReflectionClass($bundle);
             $path = dirname($reflection->getFileName());
             $prefixPath = $this->getBundlesPrefixPath();
             $configName = $this->getBundlesConfigFilename();
+            $dependencies = [];
+            $before = [];
 
             $bundleConfig = $path . '/' . $prefixPath . '/' . $configName;
 
             if (file_exists($bundleConfig)) {
-                array_merge(
-                    $bundles,
-                    $this->loadBundleDependencies(
-                        require $bundleConfig
-                    )
-                );
+                $dependencies = require $bundleConfig;
+
+                if (isset($dependencies['before'])) {
+                    $before = $dependencies['before'];
+                    unset($dependencies['before']);
+                }
+
+                if (!empty($before)) {
+                    $before = $this->loadBundleDependencies($before);
+                }
+
+                $dependencies = $this->loadBundleDependencies($dependencies);
             }
+
+            $loaded = array_merge(
+                $loaded,
+                $before,
+                [$bundle => $options],
+                $dependencies
+            );
         }
 
-        return $bundles;
+        return $loaded;
     }
 
     protected function getBundlesPrefixPath(): string
