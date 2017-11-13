@@ -12,38 +12,26 @@ declare(strict_types=1);
 
 namespace Borobudur\Infrastructure\Symfony\DependencyInjection;
 
-use Borobudur\Component\Messaging\Metadata\Metadata;
-use Borobudur\Infrastructure\Symfony\Metadata\MetadataServiceLoader;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 
 /**
  * @author  Iqbal Maulana <iq.bluejack@gmail.com>
  */
-abstract class AbstractBootstrapExtension extends AbstractExtension
+abstract class AbstractBootstrapExtension extends AbstractExtension implements PrependExtensionInterface
 {
-    public function load(array $configs, ContainerBuilder $container): void
+    /**
+     * {@inheritdoc}
+     */
+    public function prepend(ContainerBuilder $container)
     {
-        $appName = $this->getAppName();
+        $configs = $container->getExtensionConfig($this->getAlias());
         $configs = $this->processConfiguration(
             $this->getConfiguration($configs, $container),
             $configs
         );
-        $settings = [];
 
-        if (isset($configs['settings']['message'])) {
-            $settings = $configs['settings']['message'];
-        }
-
-        $container->setParameter(
-            sprintf('%s.messaging.settings', $appName),
-            $settings
-        );
-
-        $this->loadServices($container);
-
-        if ($configs['settings']['enable_messaging']) {
-            $this->registerMetadata($container, $configs);
-        }
+        $container->prependExtensionConfig('borobudur_messaging', $configs);
     }
 
     /**
@@ -52,28 +40,5 @@ abstract class AbstractBootstrapExtension extends AbstractExtension
     public function getConfiguration(array $config, ContainerBuilder $container)
     {
         return new Configuration($this->getAppName());
-    }
-
-    /**
-     * Register metadata service.
-     *
-     * @param ContainerBuilder $container
-     * @param array            $configs
-     */
-    private function registerMetadata(ContainerBuilder $container, array $configs): void
-    {
-        $registryService = $configs['settings']['metadata_service'];
-        $registry = $container->findDefinition($registryService);
-
-        foreach ($configs['messages'] as $alias => $config) {
-            $metadata = Metadata::fromAliasAndConfiguration($alias, $config);
-
-            $registry->addMethodCall(
-                'addFromAliasAndConfiguration',
-                [$alias, $config]
-            );
-
-            MetadataServiceLoader::load($container, $metadata, $appName);
-        }
     }
 }

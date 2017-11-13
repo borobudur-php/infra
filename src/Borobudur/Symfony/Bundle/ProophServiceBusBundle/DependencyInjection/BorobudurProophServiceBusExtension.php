@@ -15,7 +15,6 @@ namespace Borobudur\Infrastructure\Symfony\Bundle\ProophServiceBusBundle\Depende
 use Borobudur\Infrastructure\Symfony\DependencyInjection\AbstractExtension;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
-use Symfony\Component\DependencyInjection\Reference;
 
 /**
  * @author  Iqbal Maulana <iq.bluejack@gmail.com>
@@ -31,13 +30,13 @@ class BorobudurProophServiceBusExtension extends AbstractExtension implements Pr
             if ('prooph_service_bus' === $name) {
                 $config = [
                     'command_buses' => [
-                        'plugins' => [
-                            new Reference(
-                                'borobudur.bus.plugin.handle_command_strategy'
-                            ),
-                        ],
-                        'router'  => [
-                            'type' => 'borobudur.default_command_bus.router',
+                        'borobudur_command_bus' => [
+                            'plugins' => [
+                                'borobudur.bus.plugin.handle_command_strategy',
+                            ],
+                            'router'  => [
+                                'type' => 'borobudur.default_command_bus.router',
+                            ],
                         ],
                     ],
                 ];
