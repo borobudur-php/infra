@@ -40,7 +40,10 @@ abstract class AbstractBootstrapExtension extends AbstractExtension
         );
 
         $this->loadServices($container);
-        $this->registerMetadata($container, $configs);
+
+        if ($configs['settings']['enable_messaging']) {
+            $this->registerMetadata($container, $configs);
+        }
     }
 
     /**
@@ -59,8 +62,7 @@ abstract class AbstractBootstrapExtension extends AbstractExtension
      */
     private function registerMetadata(ContainerBuilder $container, array $configs): void
     {
-        $appName = $this->getAppName();
-        $registryService = sprintf('%s.messaging.metadata_registry', $appName);
+        $registryService = $configs['settings']['metadata_service'];
         $registry = $container->findDefinition($registryService);
 
         foreach ($configs['messages'] as $alias => $config) {
