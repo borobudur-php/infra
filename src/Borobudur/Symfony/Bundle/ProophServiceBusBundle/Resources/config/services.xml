@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~ This file is part of the Borobudur package.
+  ~
+  ~ (c) 2017 Borobudur <http://borobudur.io>
+  ~
+  ~ For the full copyright and license information, please view the LICENSE
+  ~ file that was distributed with this source code.
+  -->
+
+<container xmlns="http://symfony.com/schema/dic/services" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <services>
+        <defaults autowire="false" public="false" autoconfigure="true"/>
+
+        <service id="borobudur.default_command_bus.router" class="Prooph\ServiceBus\Plugin\Router\SingleHandlerServiceLocatorRouter">
+            <argument id="borobudur.bus.message_service_locator" type="service"/>
+        </service>
+
+        <service id="borobudur.bus.plugin.handle_command_strategy" class="Borobudur\Infrastructure\Prooph\Bus\Plugin\InvokeStrategy\HandleCommandStrategy" public="true" />
+
+        <service id="borobudur.bus.command_bus" decorates="prooph_service_bus.borobudur_command_bus" class="Borobudur\Infrastructure\Prooph\Bus\CommandBus">
+            <argument id="borobudur.bus.command_bus.inner" type="service"/>
+        </service>
+
+        <service id="borobudur.bus.message_service_locator" class="Symfony\Component\DependencyInjection\ServiceLocator">
+            <argument type="collection">
+            </argument>
+            <tag name="container.service_locator"/>
+        </service>
+
+        <service id="borobudur.bus.composite_bus" class="Borobudur\Infrastructure\Prooph\Bus\CompositeBus">
+            <argument type="collection">
+                <argument key="command" id="borobudur.bus.command_bus" type="service"/>
+            </argument>
+        </service>
+
+        <service id="Borobudur\Component\Messaging\Bus\MessageBusInterface" alias="borobudur.bus.composite_bus"/>
+    </services>
+</container>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~ This file is part of the Borobudur package.
+  ~
+  ~ (c) 2017 Borobudur <http://borobudur.io>
+  ~
+  ~ For the full copyright and license information, please view the LICENSE
+  ~ file that was distributed with this source code.
+  -->
+
+<container xmlns="http://symfony.com/schema/dic/services" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <imports>
+        <import resource="services/routing.xml"/>
+        <import resource="services/view.xml"/>
+    </imports>
+
+    <services>
+        <defaults autowire="false" public="true" autoconfigure="true"/>
+
+        <service id="borobudur.http.request_factory" class="Borobudur\Infrastructure\Symfony\Http\Request\BorobudurRequestFactory"/>
+        <service id="borobudur.http.response_factory" class="Borobudur\Infrastructure\Symfony\Http\Response\BorobudurResponseFactory"/>
+
+        <service id="borobudur_api.event_subscriber.message_injector_subscriber" class="Borobudur\Infrastructure\Symfony\EventSubscriber\MessageInjectorSubscriber">
+            <argument id="borobudur.messaging.metadata_service_locator" type="service"/>
+            <argument id="borobudur.messaging.metadata_request_configuration_factory" type="service"/>
+            <argument id="borobudur.http.request_factory" type="service"/>
+            <tag name="kernel.event_listener" event="kernel.controller" method="onKernelRequest" priority="10"/>
+        </service>
+
+        <service id="Borobudur\Component\Http\Controller\InvokableMessageControllerInterface" class="Borobudur\Infrastructure\Symfony\Http\Controller\InvokableMessageController">
+            <argument id="borobudur.bus.composite_bus" type="service"/>
+            <argument id="borobudur_api.view.renderer" type="service"/>
+            <argument id="borobudur.http.response_factory" type="service"/>
+        </service>
+    </services>
+</container>
