@@ -25,7 +25,7 @@ use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
 /**
  * @author  Iqbal Maulana <iq.bluejack@gmail.com>
  */
-final class MessageInjector
+final class MessageInjectorSubscriber
 {
     /**
      * @var ContainerInterface

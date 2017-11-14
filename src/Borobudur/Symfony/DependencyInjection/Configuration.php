@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace Borobudur\Infrastructure\Symfony\DependencyInjection;
 
-use Borobudur\Infrastructure\Symfony\Bundle\MessagingBundle\DependencyInjection\Configuration as MessagingConfiguration;
+use Borobudur\Infrastructure\Symfony\Bundle\ProophMessagingBundle\DependencyInjection\Configuration as MessagingConfiguration;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 /**

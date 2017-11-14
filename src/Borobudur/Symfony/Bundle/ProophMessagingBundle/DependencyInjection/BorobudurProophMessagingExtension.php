@@ -10,17 +10,18 @@
 
 declare(strict_types=1);
 
-namespace Borobudur\Infrastructure\Symfony\Bundle\MessagingBundle\DependencyInjection;
+namespace Borobudur\Infrastructure\Symfony\Bundle\ProophMessagingBundle\DependencyInjection;
 
 use Borobudur\Component\Messaging\Metadata\Metadata;
 use Borobudur\Infrastructure\Symfony\DependencyInjection\AbstractExtension;
 use Borobudur\Infrastructure\Symfony\Metadata\MetadataServiceLoader;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 
 /**
  * @author  Iqbal Maulana <iq.bluejack@gmail.com>
  */
-class BorobudurMessagingExtension extends AbstractExtension
+class BorobudurProophMessagingExtension extends AbstractExtension implements PrependExtensionInterface
 {
     public function load(array $configs, ContainerBuilder $container): void
     {
@@ -45,6 +46,38 @@ class BorobudurMessagingExtension extends AbstractExtension
         if ($configs['settings']['enable_messaging']) {
             $this->registerMetadata($container, $configs);
         }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function prepend(ContainerBuilder $container)
+    {
+        foreach ($container->getExtensions() as $name => $extension) {
+            if ('prooph_service_bus' === $name) {
+                $config = [
+                    'command_buses' => [
+                        'borobudur_command_bus' => [
+                            'plugins' => [
+                                'borobudur.bus.plugin.handle_command_strategy',
+                            ],
+                            'router'  => [
+                                'type' => 'borobudur.default_command_bus.router',
+                            ],
+                        ],
+                    ],
+                ];
+
+                $container->prependExtensionConfig($name, $config);
+
+                break;
+            }
+        }
+    }
+
+    public function getAlias()
+    {
+        return 'borobudur_messaging';
     }
 
     /**

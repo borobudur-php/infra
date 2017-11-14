@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Borobudur\Infrastructure\Symfony\Bundle\MessagingBundle\DependencyInjection;
+namespace Borobudur\Infrastructure\Symfony\Bundle\ProophMessagingBundle\DependencyInjection;
 
 use Borobudur\Component\Messaging\Message\Factory;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
