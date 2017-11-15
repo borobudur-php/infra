@@ -31,11 +31,6 @@ final class MessageEnvelope implements MessageInterface, HasMessageName
      */
     private $reflection;
 
-    /**
-     * @var mixed
-     */
-    private $return;
-
     public function __construct(MessageInterface $message)
     {
         $this->message = $message;
@@ -64,27 +59,5 @@ final class MessageEnvelope implements MessageInterface, HasMessageName
     public function getMessage(): MessageInterface
     {
         return $this->message;
-    }
-
-    /**
-     * Gets result from handler.
-     *
-     * @return mixed
-     */
-    public function getReturn()
-    {
-        return $this->return;
-    }
-
-    /**
-     * Set result to message.
-     *
-     * @param mixed $return
-     *
-     * @internal
-     */
-    protected function setReturn($return): void
-    {
-        $this->return = $return;
     }
 }

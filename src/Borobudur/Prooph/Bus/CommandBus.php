@@ -14,6 +14,7 @@ namespace Borobudur\Infrastructure\Prooph\Bus;
 
 use Borobudur\Component\Messaging\Bus\MessageBusInterface;
 use Borobudur\Component\Messaging\Message\MessageInterface;
+use Borobudur\Component\Messaging\Message\PayloadMessageInterface;
 use Borobudur\Infrastructure\Prooph\Message\MessageEnvelope;
 use Prooph\ServiceBus\CommandBus as BaseCommandBus;
 
@@ -45,6 +46,10 @@ final class CommandBus implements MessageBusInterface
 
         $this->bus->dispatch($envelope);
 
-        return $envelope->getReturn();
+        if ($message instanceof PayloadMessageInterface) {
+            return $message->getMessagePayload()->all();
+        }
+
+        return $message;
     }
 }

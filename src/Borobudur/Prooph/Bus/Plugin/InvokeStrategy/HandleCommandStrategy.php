@@ -16,7 +16,6 @@ use Borobudur\Infrastructure\Prooph\Message\MessageEnvelope;
 use Prooph\Common\Event\ActionEvent;
 use Prooph\ServiceBus\MessageBus;
 use Prooph\ServiceBus\Plugin\AbstractPlugin;
-use ReflectionMethod;
 use RuntimeException;
 
 /**
@@ -66,14 +65,12 @@ final class HandleCommandStrategy extends AbstractPlugin
             MessageBus::EVENT_PARAM_MESSAGE_HANDLER
         );
 
-        $return = $handler->handle($message->getMessage());
+        $handler->handle($message->getMessage());
 
         $actionEvent->setParam(
             MessageBus::EVENT_PARAM_MESSAGE_HANDLED,
             true
         );
-
-        $this->call($message, 'setReturn', $return);
     }
 
     /**
@@ -89,19 +86,5 @@ final class HandleCommandStrategy extends AbstractPlugin
                 MessageBus::EVENT_PARAM_MESSAGE_HANDLED,
                 false
             );
-    }
-
-    /**
-     * Call a method from specified object.
-     *
-     * @param object $object
-     * @param string $method
-     * @param array  ...$arguments
-     */
-    private function call(object $object, string $method, ...$arguments): void
-    {
-        $setReturn = new ReflectionMethod(get_class($object), $method);
-        $setReturn->setAccessible(true);
-        $setReturn->invoke($object, ...$arguments);
     }
 }
