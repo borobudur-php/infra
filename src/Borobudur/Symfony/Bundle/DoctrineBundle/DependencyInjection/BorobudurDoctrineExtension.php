@@ -28,6 +28,8 @@ final class BorobudurDoctrineExtension extends AbstractExtension
             [$config['table_prefix']]
         );
 
+        $definition->addTag('doctrine.event_subscriber');
+
         $container->setDefinition(
             'borobudur_doctrine.table_prefix_subscriber',
             $definition
