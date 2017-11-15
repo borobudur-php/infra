@@ -111,7 +111,7 @@ abstract class AbstractExtension extends Extension implements PrependExtensionIn
     protected function getModuleName(): string
     {
         return Container::underscore(
-            substr(strrchr(get_class($this), '\\'), 1, -6)
+            substr(strrchr(get_class($this), '\\'), 1, -9)
         );
     }
 
