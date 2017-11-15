@@ -26,6 +26,7 @@
         "symfony/serializer": "^3.4",
         "symfony/form": "^3.4",
         "symfony/config": "^3.4",
+        "symfony/psr-http-message-bridge": "^1.0",
         "prooph/service-bus": "^6.1.1",
         "prooph/service-bus-symfony-bundle": "^1.0",
         "prooph/event-store-symfony-bundle": "^1.0"

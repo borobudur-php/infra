@@ -13,6 +13,7 @@
     <imports>
         <import resource="services/routing.xml"/>
         <import resource="services/view.xml"/>
+        <import resource="services/psr7.xml"/>
     </imports>
 
     <services>

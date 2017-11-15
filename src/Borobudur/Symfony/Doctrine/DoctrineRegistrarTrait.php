@@ -138,7 +138,7 @@ trait DoctrineRegistrarTrait
     protected function getConfigFilesPath(): string
     {
         return sprintf(
-            '%s/../%s',
+            '%s/../../../%s',
             $this->getPath(),
             $this->getMappingDirectory()
         );
