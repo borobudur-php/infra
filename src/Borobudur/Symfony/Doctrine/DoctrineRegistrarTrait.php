@@ -25,7 +25,7 @@ trait DoctrineRegistrarTrait
     /**
      * @var string
      */
-    protected $mappingFormat = DoctrineBundleInterface::MAPPING_XML;
+    protected $mappingFormat = DoctrineBundleInterface::MAPPING_ANNOTATION;
 
     /**
      * Scan and register doctrine orm.
@@ -127,7 +127,7 @@ trait DoctrineRegistrarTrait
      */
     protected function getMappingDirectory(): string
     {
-        return 'Doctrine';
+        return 'Doctrine/Model';
     }
 
     /**
@@ -138,7 +138,7 @@ trait DoctrineRegistrarTrait
     protected function getConfigFilesPath(): string
     {
         return sprintf(
-            '%s/../../%s',
+            '%s/../%s',
             $this->getPath(),
             $this->getMappingDirectory()
         );

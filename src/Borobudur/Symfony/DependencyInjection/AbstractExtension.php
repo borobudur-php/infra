@@ -108,6 +108,18 @@ abstract class AbstractExtension extends Extension implements PrependExtensionIn
      *
      * @return string
      */
+    protected function getModuleName(): string
+    {
+        return Container::underscore(
+            substr(strrchr(get_class($this), '\\'), 1, -6)
+        );
+    }
+
+    /**
+     * Gets the application root name.
+     *
+     * @return string
+     */
     protected function getAppName(): string
     {
         $class = get_class($this);

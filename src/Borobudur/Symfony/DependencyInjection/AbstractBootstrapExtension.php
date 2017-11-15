@@ -39,6 +39,6 @@ abstract class AbstractBootstrapExtension extends AbstractExtension implements P
      */
     public function getConfiguration(array $config, ContainerBuilder $container)
     {
-        return new Configuration($this->getAppName());
+        return new Configuration($this->getModuleName());
     }
 }

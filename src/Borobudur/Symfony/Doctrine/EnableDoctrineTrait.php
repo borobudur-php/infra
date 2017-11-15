@@ -29,14 +29,14 @@ trait EnableDoctrineTrait
         $container->setParameter(
             sprintf(
                 '%s.driver.%s',
-                $this->getApplicationName(),
+                $this->getModuleName(),
                 $this->getDriver()
             ),
             true
         );
     }
 
-    abstract protected function getApplicationName(): string;
+    abstract protected function getModuleName(): string;
 
     abstract protected function getDriver(): string;
 }
