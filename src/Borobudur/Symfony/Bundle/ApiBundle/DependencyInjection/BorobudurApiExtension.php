@@ -17,6 +17,6 @@ use Borobudur\Infrastructure\Symfony\DependencyInjection\AbstractExtension;
 /**
  * @author  Iqbal Maulana <iq.bluejack@gmail.com>
  */
-class BorobudurApiExtension extends AbstractExtension
+final class BorobudurApiExtension extends AbstractExtension
 {
 }

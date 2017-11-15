@@ -21,7 +21,7 @@ use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 /**
  * @author  Iqbal Maulana <iq.bluejack@gmail.com>
  */
-class BorobudurProophMessagingExtension extends AbstractExtension implements PrependExtensionInterface
+final class BorobudurProophMessagingExtension extends AbstractExtension implements PrependExtensionInterface
 {
     public function load(array $configs, ContainerBuilder $container): void
     {

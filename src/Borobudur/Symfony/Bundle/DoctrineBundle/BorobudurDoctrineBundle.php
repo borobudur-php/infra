@@ -10,13 +10,13 @@
 
 declare(strict_types=1);
 
-namespace Borobudur\Infrastructure\Symfony\Bundle\ApiBundle;
+namespace Borobudur\Infrastructure\Symfony\Bundle\DoctrineBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 /**
  * @author  Iqbal Maulana <iq.bluejack@gmail.com>
  */
-final class BorobudurApiBundle extends Bundle
+final class BorobudurDoctrineBundle extends Bundle
 {
 }

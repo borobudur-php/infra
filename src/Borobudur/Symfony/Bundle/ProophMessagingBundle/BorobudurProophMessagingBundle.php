@@ -18,7 +18,7 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 /**
  * @author  Iqbal Maulana <iq.bluejack@gmail.com>
  */
-class BorobudurProophMessagingBundle extends Bundle
+final class BorobudurProophMessagingBundle extends Bundle
 {
     public function getContainerExtension()
     {
