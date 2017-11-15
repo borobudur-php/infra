@@ -23,9 +23,14 @@ final class BorobudurDoctrineExtension extends AbstractExtension
 {
     public function load(array $config, ContainerBuilder $container): void
     {
+        $configs = $this->processConfiguration(
+            $this->getConfiguration($config, $container),
+            $config
+        );
+
         $definition = new Definition(
-            $config['table_prefix_subscriber_class'],
-            [$config['table_prefix']]
+            $configs['table_prefix_subscriber_class'],
+            [$configs['table_prefix']]
         );
 
         $definition->addTag('doctrine.event_subscriber');
