@@ -15,21 +15,26 @@ namespace Borobudur\Infrastructure\Prooph\Bus\Plugin\InvokeStrategy;
 use Borobudur\Infrastructure\Prooph\Message\MessageEnvelope;
 use Prooph\Common\Event\ActionEvent;
 use Prooph\ServiceBus\MessageBus;
+use Prooph\ServiceBus\QueryBus;
 
 /**
  * @author  Iqbal Maulana <iq.bluejack@gmail.com>
  */
-final class HandleCommandStrategy extends AbstractMessageBusInvokeStrategy
+final class HandleQueryStrategy extends AbstractMessageBusInvokeStrategy
 {
     /**
-     * {@inheritdoc}
+     * Dispatch and handle message.
+     *
+     * @param MessageEnvelope $message
+     * @param ActionEvent     $actionEvent
      */
     protected function dispatch(MessageEnvelope $message, ActionEvent $actionEvent): void
     {
+        $deferred = $actionEvent->getParam(QueryBus::EVENT_PARAM_DEFERRED);
         $handler = $actionEvent->getParam(
             MessageBus::EVENT_PARAM_MESSAGE_HANDLER
         );
 
-        $handler->handle($message->getMessage());
+        $handler->handle($message->getMessage(), $deferred);
     }
 }

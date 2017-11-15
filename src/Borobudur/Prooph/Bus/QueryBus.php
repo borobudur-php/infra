@@ -14,21 +14,20 @@ namespace Borobudur\Infrastructure\Prooph\Bus;
 
 use Borobudur\Component\Messaging\Bus\MessageBusInterface;
 use Borobudur\Component\Messaging\Message\MessageInterface;
-use Borobudur\Component\Messaging\Message\PayloadMessageInterface;
 use Borobudur\Infrastructure\Prooph\Message\MessageEnvelope;
-use Prooph\ServiceBus\CommandBus as BaseCommandBus;
+use Prooph\ServiceBus\QueryBus as BaseQueryBus;
 
 /**
  * @author  Iqbal Maulana <iq.bluejack@gmail.com>
  */
-final class CommandBus implements MessageBusInterface
+final class QueryBus implements MessageBusInterface
 {
     /**
-     * @var BaseCommandBus
+     * @var BaseQueryBus
      */
     private $bus;
 
-    public function __construct(BaseCommandBus $bus)
+    public function __construct(BaseQueryBus $bus)
     {
         $this->bus = $bus;
     }
@@ -39,13 +38,14 @@ final class CommandBus implements MessageBusInterface
     public function dispatch(MessageInterface $message)
     {
         $envelope = new MessageEnvelope($message);
+        $return = null;
 
-        $this->bus->dispatch($envelope);
+        $this->bus->dispatch($envelope)->then(
+            function ($result) use (&$return) {
+                $return = $result;
+            }
+        );
 
-        if ($message instanceof PayloadMessageInterface) {
-            return $message->getMessagePayload()->all();
-        }
-
-        return $message;
+        return $return;
     }
 }

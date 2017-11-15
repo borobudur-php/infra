@@ -66,6 +66,16 @@ final class BorobudurProophMessagingExtension extends AbstractExtension implemen
                             ],
                         ],
                     ],
+                    'query_buses' => [
+                        'borobudur_query_bus' => [
+                            'plugins' => [
+                                'borobudur.bus.plugin.handle_query_strategy',
+                            ],
+                            'router'  => [
+                                'type' => 'borobudur.default_query_bus.router',
+                            ],
+                        ],
+                    ],
                 ];
 
                 $container->prependExtensionConfig($name, $config);
