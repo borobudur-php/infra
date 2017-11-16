@@ -76,6 +76,10 @@ final class UuidType extends Type
             return null;
         }
 
+        if (is_string($value)) {
+            return $value;
+        }
+
         if ($value instanceof Uuid) {
             return $value->getScalarValue();
         }
