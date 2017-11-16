@@ -62,6 +62,8 @@ final class BorobudurRequestFactory implements BorobudurRequestFactoryInterface
             $request = $request->withAttribute($key, $value);
         }
 
+        $request->setRequestFormat($symfonyRequest->getRequestFormat(null));
+
         return $request;
     }
 
