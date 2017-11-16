@@ -16,7 +16,7 @@
             <argument id="fos_rest.view_handler" type="service"/>
         </service>
 
-        <service id="borobudur_api.view.api_view_handler" class="Borobudur\Infrastructure\Symfony\Bundle\ApiBundle\View\ApiViewHandler">
+        <service id="borobudur_api.view.default_api_formatter" class="Borobudur\Infrastructure\Symfony\Bundle\ApiBundle\View\Formatter\DefaultApiFormatter">
             <argument id="serializer" type="service"/>
         </service>
 
@@ -24,14 +24,14 @@
             <call method="registerHandler">
                 <argument>json</argument>
                 <argument type="collection">
-                    <argument type="service" id="borobudur_api.view.api_view_handler"/>
+                    <argument type="service" id="borobudur_api.view.default_api_formatter"/>
                     <argument>createResponse</argument>
                 </argument>
             </call>
             <call method="registerHandler">
                 <argument>xml</argument>
                 <argument type="collection">
-                    <argument type="service" id="borobudur_api.view.api_view_handler"/>
+                    <argument type="service" id="borobudur_api.view.default_api_formatter"/>
                     <argument>createResponse</argument>
                 </argument>
             </call>

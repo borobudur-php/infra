@@ -10,55 +10,41 @@
 
 declare(strict_types=1);
 
-namespace Borobudur\Infrastructure\Symfony\Bundle\ApiBundle\View;
+namespace Borobudur\Infrastructure\Symfony\Bundle\ApiBundle\View\Formatter;
 
+use FOS\RestBundle\Context\Context;
 use FOS\RestBundle\View\View;
 use FOS\RestBundle\View\ViewHandler;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Serializer\Serializer;
 
 /**
  * @author  Iqbal Maulana <iq.bluejack@gmail.com>
  */
-final class ApiViewHandler
+abstract class AbstractFormatter
 {
-    /**
-     * @var Serializer
-     */
-    private $serializer;
-
-    public function __construct(Serializer $serializer)
-    {
-        $this->serializer = $serializer;
-    }
-
     public function createResponse(ViewHandler $viewHandler, View $view, Request $request, string $format): Response
     {
         if (null !== $data = $view->getData()) {
-            $version = str_replace(
-                'v',
-                '',
-                $request->attributes->get('version')
-            );
-
-            $normalized = [
-                'meta' => [
-                    'version' => (float) $version,
-                    'status'  => $this->getStatusCode($view, $data),
-                ],
-            ];
-
-            $normalized['data'] = $data;
-
-            $view->setData($normalized);
+            $view->setData($this->transform($view, $request, $format));
         }
 
         return $viewHandler->createResponse($view, $request, $format);
     }
 
-    private function getStatusCode(View $view, $data = null): int
+    abstract protected function transform(View $view, Request $request, string $format): array;
+
+    protected function getVersion(Request $request): float
+    {
+        return (float) str_replace(
+            'v',
+            '',
+            $request->attributes->get('version')
+        );
+    }
+
+    protected function getStatusCode(View $view, $data = null): int
     {
         $form = $this->getFormFromView($view);
 
@@ -74,7 +60,7 @@ final class ApiViewHandler
         return null !== $data ? Response::HTTP_OK : Response::HTTP_NO_CONTENT;
     }
 
-    private function getFormFromView(View $view)
+    protected function getFormFromView(View $view)
     {
         $data = $view->getData();
 
@@ -90,5 +76,22 @@ final class ApiViewHandler
         }
 
         return false;
+    }
+
+    protected function convertContext(Context $context): array
+    {
+        $newContext = array();
+        foreach ($context->getAttributes() as $key => $value) {
+            $newContext[$key] = $value;
+        }
+
+        if (null !== $context->getGroups()) {
+            $newContext['groups'] = $context->getGroups();
+        }
+        $newContext['version'] = $context->getVersion();
+        $newContext['maxDepth'] = $context->getMaxDepth(false);
+        $newContext['enable_max_depth'] = $context->isMaxDepthEnabled();
+
+        return $newContext;
     }
 }
