@@ -103,7 +103,7 @@ final class MessageRouteLoader implements LoaderInterface
         $controller = $config['controller'];
         $config['serialization_groups'] = explode(
             ',',
-            $config['serialization_groups']
+            str_replace(' ', '', $config['serialization_groups'])
         );
 
         $defaults = [
