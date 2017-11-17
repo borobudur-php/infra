@@ -16,6 +16,7 @@ use Borobudur\Infrastructure\Symfony\Serializer\Mapping\Loader\YamlFileLoader;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
+use Symfony\Component\Serializer\Mapping\Loader\YamlFileLoader as SymfonyYamlFileLoader;
 
 /**
  * @author  Iqbal Maulana <iq.bluejack@gmail.com>
@@ -33,7 +34,9 @@ final class ReplaceSymfonySerializerLoaderCompilerPass implements CompilerPassIn
         $loaders = $chainLoader->getArgument(0);
 
         foreach ($loaders as $definition) {
-            $definition->setClass(YamlFileLoader::class);
+            if ($definition->getClass() === SymfonyYamlFileLoader::class) {
+                $definition->setClass(YamlFileLoader::class);
+            }
         }
 
         $chainLoader->replaceArgument(0, $loaders);
