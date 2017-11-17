@@ -138,39 +138,39 @@ final class YamlFileLoader extends SymfonyYamlFileLoader
     private function setVersion(AttributeMetadataInterface $metadata, string $attribute, SymfonyClassMetadataInterface $classMetadata, array $data): void
     {
         if (isset($data['version'])) {
-            if (!isset($data['version']['since'])
-                || (!is_float($data['version']['since'])
-                    && !is_int($data['version']['since']))
-            ) {
-                throw new MappingException(
-                    sprintf(
-                        'The "since" value must be an float or integer in "%s" for the attribute "%s" of the class "%s".',
-                        $this->file,
-                        $attribute,
-                        $classMetadata->getName()
-                    )
-                );
+            $version = new Version();
+
+            if (isset($data['version']['since'])) {
+                if (!is_float($data['version']['since']) && !is_int($data['version']['since'])) {
+                    throw new MappingException(
+                        sprintf(
+                            'The "since" value must be an float or integer in "%s" for the attribute "%s" of the class "%s".',
+                            $this->file,
+                            $attribute,
+                            $classMetadata->getName()
+                        )
+                    );
+                }
+
+                $version->setSince((float) $data['version']['since']);
             }
 
-            if (!isset($data['version']['until'])
-                || (!is_float($data['version']['until'])
-                    && !is_int($data['version']['until']))
-            ) {
-                throw new MappingException(
-                    sprintf(
-                        'The "until" value must be an float or integer in "%s" for the attribute "%s" of the class "%s".',
-                        $this->file,
-                        $attribute,
-                        $classMetadata->getName()
-                    )
-                );
+            if (isset($data['version']['until'])) {
+                if (!is_float($data['version']['until']) && !is_int($data['version']['until'])) {
+                    throw new MappingException(
+                        sprintf(
+                            'The "until" value must be an float or integer in "%s" for the attribute "%s" of the class "%s".',
+                            $this->file,
+                            $attribute,
+                            $classMetadata->getName()
+                        )
+                    );
+                }
+
+                $version->setUntil((float) $data['version']['until']);
             }
 
-            $metadata->setVersion(
-                new Version(
-                    $data['version']['since'], $data['version']['until']
-                )
-            );
+            $metadata->setVersion($version);
         }
     }
 

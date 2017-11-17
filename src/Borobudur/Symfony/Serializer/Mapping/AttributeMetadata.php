@@ -43,7 +43,7 @@ final class AttributeMetadata extends SymfonyAttributeMetadata implements Attrib
         parent::merge($attributeMetadata);
 
         if ($attributeMetadata instanceof AttributeMetadataInterface) {
-            if (null !== $this->getVersion()) {
+            if (null !== $attributeMetadata->getVersion()) {
                 $this->setVersion($attributeMetadata->getVersion());
             }
         }
