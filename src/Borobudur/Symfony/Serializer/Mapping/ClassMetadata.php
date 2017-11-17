@@ -15,6 +15,7 @@ namespace Borobudur\Infrastructure\Symfony\Serializer\Mapping;
 use Borobudur\Component\Parameter\ParameterInterface;
 use Symfony\Component\Serializer\Mapping\AttributeMetadataInterface as SymfonyAttributeMetadataInterface;
 use Symfony\Component\Serializer\Mapping\ClassMetadata as SymfonyClassMetadata;
+use Symfony\Component\Serializer\Mapping\ClassMetadataInterface as SymfonyClassMetadataInterface;
 
 /**
  * @author  Iqbal Maulana <iq.bluejack@gmail.com>
@@ -25,6 +26,16 @@ final class ClassMetadata extends SymfonyClassMetadata implements ClassMetadataI
      * @var ParameterInterface
      */
     private $options;
+
+    public function getOptions(): ?ParameterInterface
+    {
+        return $this->options;
+    }
+
+    public function setOptions(ParameterInterface $options): void
+    {
+        $this->options = $options;
+    }
 
     public function addAttributeMetadata(SymfonyAttributeMetadataInterface $attributeMetadata)
     {
@@ -37,13 +48,14 @@ final class ClassMetadata extends SymfonyClassMetadata implements ClassMetadataI
         parent::addAttributeMetadata($attributeMetadata);
     }
 
-    public function getOptions(): ?ParameterInterface
+    public function merge(SymfonyClassMetadataInterface $classMetadata)
     {
-        return $this->options;
-    }
+        parent::merge($classMetadata);
 
-    public function setOptions(ParameterInterface $options): void
-    {
-        $this->options = $options;
+        if ($classMetadata instanceof ClassMetadataInterface) {
+            if (null !== $options = $classMetadata->getOptions()) {
+                $this->options = $options;
+            }
+        }
     }
 }
