@@ -27,12 +27,6 @@ final class Version
      */
     private $until;
 
-    public function __construct(float $since, float $until)
-    {
-        $this->since = $since;
-        $this->until = $until;
-    }
-
     public function getSince(): ?float
     {
         return $this->since;
