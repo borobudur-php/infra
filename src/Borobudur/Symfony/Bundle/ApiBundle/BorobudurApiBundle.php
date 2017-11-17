@@ -12,6 +12,9 @@ declare(strict_types=1);
 
 namespace Borobudur\Infrastructure\Symfony\Bundle\ApiBundle;
 
+use Borobudur\Infrastructure\Symfony\Bundle\ApiBundle\DependencyInjection\Compiler\ReplaceSymfonySerializerClassMetadataFactoryCompilerPass;
+use Borobudur\Infrastructure\Symfony\Bundle\ApiBundle\DependencyInjection\Compiler\ReplaceSymfonySerializerLoaderCompilerPass;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 /**
@@ -19,4 +22,11 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
  */
 final class BorobudurApiBundle extends Bundle
 {
+    public function build(ContainerBuilder $container)
+    {
+        parent::build($container);
+
+        $container->addCompilerPass(new ReplaceSymfonySerializerClassMetadataFactoryCompilerPass());
+        $container->addCompilerPass(new ReplaceSymfonySerializerLoaderCompilerPass());
+    }
 }

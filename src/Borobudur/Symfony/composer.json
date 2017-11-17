@@ -20,6 +20,7 @@
         "friendsofsymfony/rest-bundle": "^2.2",
         "borobudur/http": "~0.1",
         "borobudur/messaging": "~0.1",
+        "borobudur/parameter": "~0.1",
         "borobudur/prooph-infra": "~0.1",
         "symfony/yaml": "^3.4",
         "symfony/stopwatch": "^3.4",
