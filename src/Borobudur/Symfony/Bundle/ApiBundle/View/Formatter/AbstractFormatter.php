@@ -88,6 +88,8 @@ abstract class AbstractFormatter
         if (null !== $context->getGroups()) {
             $newContext['groups'] = $context->getGroups();
         }
+
+        $newContext['serializeNull'] = $context->getSerializeNull();
         $newContext['version'] = $context->getVersion();
         $newContext['maxDepth'] = $context->getMaxDepth(false);
         $newContext['enable_max_depth'] = $context->isMaxDepthEnabled();
