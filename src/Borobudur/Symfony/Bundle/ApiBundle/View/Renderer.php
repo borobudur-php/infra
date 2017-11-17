@@ -39,12 +39,12 @@ final class Renderer implements RendererInterface
     public function handle(ConfigurationInterface $configuration, View $view): Response
     {
         if (!$configuration->isHtmlRequest()) {
-            $this->restViewHandler->setExclusionStrategyGroups(
+            $view->getContext()->setGroups(
                 $configuration->getSerializationGroups()
             );
 
             if ($version = $configuration->getSerializationVersion()) {
-                $this->restViewHandler->setExclusionStrategyVersion($version);
+                $view->getContext()->setVersion($version);
             }
 
             $view->getContext()->enableMaxDepth();
