@@ -16,6 +16,7 @@ use Borobudur\Component\Messaging\Bus\MessageBusInterface;
 use Borobudur\Component\Messaging\Message\MessageInterface;
 use Borobudur\Infrastructure\Prooph\Message\MessageEnvelope;
 use Prooph\ServiceBus\QueryBus as BaseQueryBus;
+use Throwable;
 
 /**
  * @author  Iqbal Maulana <iq.bluejack@gmail.com>
@@ -39,12 +40,20 @@ final class QueryBus implements MessageBusInterface
     {
         $envelope = new MessageEnvelope($message);
         $return = null;
+        $exception = null;
 
         $this->bus->dispatch($envelope)->then(
             function ($result) use (&$return) {
                 $return = $result;
+            },
+            function (Throwable $e) use (&$exception) {
+                $exception = $e;
             }
         );
+
+        if (null !== $exception && $exception instanceof Throwable) {
+            throw $exception;
+        }
 
         return $return;
     }
