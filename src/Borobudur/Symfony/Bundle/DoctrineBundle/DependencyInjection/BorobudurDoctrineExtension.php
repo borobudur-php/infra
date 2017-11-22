@@ -39,5 +39,7 @@ final class BorobudurDoctrineExtension extends AbstractExtension
             'borobudur_doctrine.table_prefix_subscriber',
             $definition
         );
+
+        $this->loadServices($container);
     }
 }
