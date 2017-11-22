@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~ This file is part of the Borobudur package.
+  ~
+  ~ (c) 2017 Borobudur <http://borobudur.io>
+  ~
+  ~ For the full copyright and license information, please view the LICENSE
+  ~ file that was distributed with this source code.
+  -->
+
+<container xmlns="http://symfony.com/schema/dic/services" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <services>
+        <service id="borobudur.symfony.doctrine.serializer_entity_manager_adapter" class="Borobudur\Infrastructure\Symfony\Doctrine\SerializerEntityManagerAdapter">
+            <argument id="doctrine.orm.entity_manager" type="service"/>
+        </service>
+    </services>
+</container>
