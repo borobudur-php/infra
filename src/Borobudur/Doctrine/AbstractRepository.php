@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Borobudur\Infrastructure\Doctrine;
 
 use Borobudur\Component\Ddd;
+use Borobudur\Component\Ddd\Collection;
 use Borobudur\Component\Ddd\CollectionInterface;
 use Borobudur\Component\Ddd\Lock\LockingInterface;
 use Borobudur\Component\Ddd\Lock\OptimisticLock;
@@ -78,16 +79,15 @@ abstract class AbstractRepository extends AbstractDoctrineOrmRepository implemen
     /**
      * {@inheritdoc}
      */
-    public function findAllBy(array $criteria, array $orderBy = null, int $limit = null, int $offset = null): Ddd\CollectionInterface
+    public function findAllBy(array $criteria, array $orderBy = null, int $limit = null, int $offset = null): CollectionInterface
     {
         $persister = $this->_em->getUnitOfWork()->getEntityPersister(
             $this->_entityName
         );
 
-        /** @var Ddd\CollectionInterface $collection */
-        $collection = $persister->loadAll($criteria, $orderBy, $limit, $offset);
+        $result = $persister->loadAll($criteria, $orderBy, $limit, $offset);
 
-        return $collection;
+        return new Collection($result);
     }
 
     /**
