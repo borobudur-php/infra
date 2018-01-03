@@ -15,6 +15,7 @@
         <import resource="services/view.xml"/>
         <import resource="services/psr7.xml"/>
         <import resource="services/serializer.xml"/>
+        <import resource="services/transformer.xml"/>
     </imports>
 
     <services>

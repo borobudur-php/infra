@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Borobudur\Infrastructure\Symfony\Bundle\ApiBundle;
 
+use Borobudur\Infrastructure\Symfony\Bundle\ApiBundle\DependencyInjection\Compiler\RegisterTransformerCompilerPass;
 use Borobudur\Infrastructure\Symfony\Bundle\ApiBundle\DependencyInjection\Compiler\ReplaceSymfonySerializerClassMetadataFactoryCompilerPass;
 use Borobudur\Infrastructure\Symfony\Bundle\ApiBundle\DependencyInjection\Compiler\ReplaceSymfonySerializerLoaderCompilerPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -28,5 +29,6 @@ final class BorobudurApiBundle extends Bundle
 
         $container->addCompilerPass(new ReplaceSymfonySerializerClassMetadataFactoryCompilerPass());
         $container->addCompilerPass(new ReplaceSymfonySerializerLoaderCompilerPass());
+        $container->addCompilerPass(new RegisterTransformerCompilerPass());
     }
 }

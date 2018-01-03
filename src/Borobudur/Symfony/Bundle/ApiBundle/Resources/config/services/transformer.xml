@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~ This file is part of the Borobudur package.
+  ~
+  ~ (c) 2018 Borobudur <http://borobudur.io>
+  ~
+  ~ For the full copyright and license information, please view the LICENSE
+  ~ file that was distributed with this source code.
+  -->
+
+<container xmlns="http://symfony.com/schema/dic/services" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <services>
+        <service class="Borobudur\Infrastructure\Symfony\Hateoas\SymfonyRouterAdapter" id="borobudur.symfony.hateoas.symfony_router_adapter">
+            <argument id="router.default" type="service"/>
+        </service>
+
+        <service class="Borobudur\Infrastructure\Symfony\Hateoas\SymfonyNormalizerAdapter" id="borobudur.infrastructure.symfony.hateoas.symfony_normalizer_adapter">
+            <argument id="borobudur.symfony.serializer.normalizer.object" type="service"/>
+        </service>
+
+        <service class="Borobudur\Component\Transformer\Registry" id="borobudur.transformer.registry" public="false" />
+    </services>
+</container>
