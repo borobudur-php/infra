@@ -127,7 +127,7 @@ trait DoctrineRegistrarTrait
      */
     protected function getMappingDirectory(): string
     {
-        return 'Doctrine/Model';
+        return 'Doctrine/Entity';
     }
 
     /**
