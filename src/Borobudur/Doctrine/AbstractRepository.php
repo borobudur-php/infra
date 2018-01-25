@@ -106,4 +106,13 @@ abstract class AbstractRepository extends AbstractDoctrineOrmRepository implemen
         $this->_em->persist($model);
         $this->_em->flush();
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function remove(Model $model): void
+    {
+        $this->_em->remove($model);
+        $this->_em->flush();
+    }
 }
